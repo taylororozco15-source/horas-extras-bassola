@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Horas extras de la sala</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
+<style>
+:root{--bg:#1b0838;--surface:rgba(16,6,34,.84);--ink:#fff4fb;--muted:#d6b9dc;--line:rgba(255,110,180,.35);--acc:#00e5c3;--accink:#06121c;--out:#ff9a7a;--ot:#ffd23f;--otbg:rgba(255,210,63,.14);--pink:#ff3d94;--orange:#ff8a3d;color-scheme:dark;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.4}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:
+url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 800' preserveAspectRatio='xMidYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23ffe066'/%3E%3Cstop offset='1' stop-color='%23ff3d94'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='200' cy='560' r='120' fill='url(%23g)'/%3E%3Cg fill='%230b0418'%3E%3Crect x='0' y='700' width='40' height='100'/%3E%3Crect x='40' y='670' width='30' height='130'/%3E%3Crect x='70' y='715' width='45' height='85'/%3E%3Crect x='115' y='685' width='28' height='115'/%3E%3Crect x='250' y='700' width='35' height='100'/%3E%3Crect x='285' y='660' width='30' height='140'/%3E%3Crect x='315' y='710' width='40' height='90'/%3E%3Crect x='355' y='680' width='45' height='120'/%3E%3Crect x='0' y='770' width='400' height='30'/%3E%3C/g%3E%3Cg stroke='%230b0418' fill='%230b0418' stroke-linecap='round'%3E%3Cpath d='M55 800 Q62 700 82 610' fill='none' stroke-width='9'/%3E%3Cpath d='M82 610 Q45 580 8 610 Q48 596 82 610 Q60 560 30 548 Q66 556 82 610 Q100 560 135 552 Q104 566 82 610 Q118 586 156 616 Q116 604 82 610Z' stroke-width='3'/%3E%3Cpath d='M350 800 Q343 720 322 650' fill='none' stroke-width='8'/%3E%3Cpath d='M322 650 Q290 626 258 650 Q292 638 322 650 Q304 604 278 596 Q308 604 322 650 Q338 606 368 600 Q342 612 322 650 Q354 630 388 656 Q352 646 322 650Z' stroke-width='3'/%3E%3C/g%3E%3C/svg%3E") center bottom/cover no-repeat,
+linear-gradient(180deg,#1b0838 0%,#5a1170 28%,#c0267a 55%,#ff6a4a 78%,#ffb347 100%)}
+main{max-width:560px;margin:0 auto;padding:16px}
+.logo{font-family:"Bebas Neue",Impact,"Arial Narrow",sans-serif;font-size:46px;line-height:1;letter-spacing:2px;margin:6px 0 2px;text-transform:uppercase;background:linear-gradient(180deg,#ffe066,#ff3d94);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 #0b0418)}
+.tag{color:#fff;font-size:13px;letter-spacing:3px;text-transform:uppercase;margin:0 0 14px;text-shadow:0 1px 4px #0b0418}
+h2{font-family:"Bebas Neue",Impact,"Arial Narrow",sans-serif;font-weight:400;letter-spacing:1.5px;font-size:24px;margin:0 0 10px;color:var(--ot)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;backdrop-filter:blur(6px);box-shadow:0 0 18px rgba(255,61,148,.25)}
+button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--ink);padding:9px 14px}
+button:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chip{border-radius:999px;padding:8px 16px}
+.chip[aria-pressed="true"]{background:var(--acc);color:var(--accink);border-color:var(--acc);font-weight:700}
+label{display:block;font-size:15px;color:var(--muted);margin-bottom:10px}
+input{display:block;width:100%;font:inherit;padding:10px;margin-top:3px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.08);color:var(--ink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.save{width:100%;padding:15px;font-size:19px;font-weight:700;background:linear-gradient(90deg,var(--pink),var(--orange));color:#1b0838;border:0}
+.cancel{width:100%;margin-top:8px}
+.err{color:var(--out);min-height:22px;margin-top:8px}
+.mnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.mnav span{font-weight:700;font-size:18px;text-align:center}
+.mnav button{padding:4px 14px;font-size:20px;line-height:1}
+.psub{text-align:center;color:var(--muted);font-size:14px;margin-bottom:12px}
+.sum{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sum div{background:rgba(255,255,255,.07);border-radius:10px;padding:10px 12px}
+.sum b{display:block;font-size:26px;font-variant-numeric:tabular-nums}
+.sum span{color:var(--muted);font-size:15px}
+.sum .tot{background:var(--otbg)}.sum .tot b{color:var(--ot)}
+.xl{width:100%;margin-top:12px;padding:13px;font-weight:700;background:var(--acc);color:var(--accink);border:0;font-size:18px}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.info{flex:1;min-width:0}
+.info small{color:var(--muted);display:block}
+.badge{width:54px;flex:none;text-align:center;background:rgba(255,255,255,.07);border-radius:10px;padding:5px 0;line-height:1.1}
+.badge span{display:block;font-size:12px;text-transform:uppercase;color:var(--muted);letter-spacing:.5px}
+.badge b{display:block;font-size:24px}
+.badge.we{background:var(--otbg)}.badge.we b{color:var(--ot)}
+.hrs{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.acts{display:flex;flex-direction:column;gap:6px}
+.acts button{padding:5px 10px;font-size:14px}
+.ed{color:var(--acc)}
+.x{color:var(--out)}
+.empty{color:var(--muted)}
+.calc{min-height:24px;margin:-2px 0 12px;font-weight:600;color:var(--muted)}
+.calc.ok{color:var(--ot)}
+.wk{padding:10px 0;border-top:1px solid var(--line)}
+.wk:first-child{border-top:0}
+.wk .top{display:flex;justify-content:space-between;font-weight:700}
+.wk .top b{color:var(--ot);font-variant-numeric:tabular-nums}
+.wk small{color:var(--muted);display:block}
+details summary{cursor:pointer;font-weight:600;font-size:18px}
+.adminbar{display:flex;justify-content:flex-end;margin-bottom:10px}
+.adminbar button{padding:6px 12px;font-size:14px}
+body:not(.adm) .adm-only{display:none}
+</style>
+</head>
+<body>
+<main>
+<div class="logo">Horas extras</div>
+<p class="tag">Sala · Control de personal</p>
+<div class="adminbar"><button id="admBtn">Administrador</button></div>
+<section class="card" id="pinBox" hidden>
+  <h2>Administrador</h2>
+  <label>Contraseña<input type="password" id="aPass" inputmode="numeric" autocomplete="off"></label>
+  <button class="save" id="pinOk">Entrar</button>
+  <button class="cancel" id="pinCancel">Cancelar</button>
+  <div class="err" id="pinErr" aria-live="polite"></div>
+</section>
+
+<section class="card">
+  <h2 id="fTitle">Anotar horas extras</h2>
+  <div class="chips" id="wChips" role="group" aria-label="Trabajador"></div>
+  <label>Fecha<input type="date" id="date"></label>
+  <div class="grid2">
+    <label>Entrada<input type="time" id="tin" value="09:30"></label>
+    <label>Salida<input type="time" id="tout"></label>
+  </div>
+  <div class="calc" id="calc" aria-live="polite"></div>
+  <label>Nota (opcional)<input id="note" placeholder="Ej. cierre tarde, evento"></label>
+  <button class="save" id="save">Guardar</button>
+  <button class="cancel" id="cancel" hidden>Cancelar edición</button>
+  <div class="err" id="err" aria-live="polite"></div>
+</section>
+
+<section class="card">
+  <div class="mnav"><button id="mPrev" aria-label="Periodo anterior">‹</button><span id="mLabel"></span><button id="mNext" aria-label="Periodo siguiente">›</button></div>
+  <div class="psub" id="pSub"></div>
+  <div class="sum" id="sum"></div>
+  <button class="xl adm-only" id="xl" hidden>Descargar Excel</button>
+</section>
+
+<section class="card adm-only">
+  <h2>Por semana</h2>
+  <div id="weeks"></div>
+</section>
+
+<section class="card adm-only">
+  <h2>Registros</h2>
+  <div class="chips" id="fChips" role="group" aria-label="Filtrar por trabajador"></div>
+  <div id="list"></div>
+</section>
+
+<section class="card adm-only">
+  <details>
+    <summary>Trabajadores y ajustes</summary>
+    <label style="margin-top:12px">Jornada normal (horas al día). Lo que pase de ahí cuenta como extra.<input type="number" id="cDaily" min="0" step="0.25" inputmode="decimal"></label>
+    <label>Día de corte del periodo (el periodo va del día siguiente al corte hasta el día de corte del otro mes)<input type="number" id="cCut" min="1" max="28" step="1" inputmode="numeric"></label>
+    <div id="wList" style="margin-top:10px"></div>
+    <div class="grid2" style="margin-top:10px;align-items:end">
+      <label style="margin:0">Nuevo trabajador<input id="wNew" placeholder="Nombre"></label>
+      <button id="wAdd">Agregar</button>
+    </div>
+  </details>
+</section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+const KEY="horasSala:data",DEF_IN="09:30";
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,"0");
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const hm=m=>{m=Math.round(m);return Math.floor(m/60)+":"+pad(m%60)};
+const ymd=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const el=(t,txt,cls)=>{const e=document.createElement(t);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;return e};
+const parse=s=>{const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const tmin=s=>{const [h,m]=s.split(":").map(Number);return h*60+m};
+const fd=(d,y)=>d.getDate()+" "+d.toLocaleDateString("es",{month:"short"}).replace(".","")+(y?" "+d.getFullYear():"");
+
+// ===== CONFIGURACIÓN: pega aquí tus datos de Supabase =====
+const SUPABASE_URL="https://mnhbxgfqlnkbmthjwiof.supabase.co";
+const SUPABASE_KEY="sb_publishable_hIJBSTXzvRpXqZur7ROg1g_NooX9ZV_";
+const ADMIN_EMAIL="taylororozco15@gmail.com"; // el correo del usuario que creaste en Supabase
+const PASS_EXTRA="@sala"; // se agrega a lo que escribes: escribes 2001 y Supabase recibe 2001@sala
+// ==========================================================
+let workers=[],recs=[],sel=null,filter="all",daily=8,cut=25,editId=null,adm=false,first=true;
+const configured=!SUPABASE_URL.startsWith("PEGA")&&!SUPABASE_KEY.startsWith("PEGA");
+const sb=configured?supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
+const dbErr=e=>{$("err").textContent="Error: "+(e&&e.message?e.message:"sin conexión")};
+async function load(){
+  if(!sb)return;
+  const [w,r,st]=await Promise.all([sb.from("workers").select("*").order("id"),sb.from("records").select("*").order("id"),sb.from("settings").select("*").eq("id",1).maybeSingle()]);
+  if(w.error||r.error){dbErr(w.error||r.error);return}
+  workers=w.data.map(x=>x.name);
+  recs=r.data.map(x=>({id:x.id,w:x.worker,date:x.date,min:x.minutes,tin:x.tin,tout:x.tout,note:x.note||""}));
+  if(st.data){daily=Number(st.data.daily);cut=st.data.cut}
+  $("cDaily").value=daily;$("cCut").value=cut;
+  if(first){month=periodOf(ymd(new Date()));first=false}
+  render();
+}
+const saveSettings=async()=>{const {error}=await sb.from("settings").upsert({id:1,daily,cut});if(error)dbErr(error)};
+
+// Periodo: del día siguiente al corte (mes anterior) hasta el día de corte (mes de la clave)
+function periodOf(dateStr){const d=parse(dateStr);const x=d.getDate()<=cut?d:new Date(d.getFullYear(),d.getMonth()+1,1);return x.getFullYear()+"-"+pad(x.getMonth()+1)}
+function range(key){const [y,m]=key.split("-").map(Number);return {s:new Date(y,m-2,cut+1),e:new Date(y,m-1,cut)}}
+let month=periodOf(ymd(new Date()));
+
+$("date").value=ymd(new Date());
+$("cDaily").value=daily;$("cCut").value=cut;
+$("cDaily").onchange=()=>{const v=parseFloat($("cDaily").value);if(v>=0){daily=v;saveSettings();calc()}};
+$("cCut").onchange=()=>{const v=parseInt($("cCut").value,10);if(v>=1&&v<=28){cut=v;saveSettings();month=periodOf(ymd(new Date()));render()}else $("cCut").value=cut};
+$("tin").oninput=calc;$("tout").oninput=calc;
+
+function work(){
+  const a=$("tin").value,b=$("tout").value;
+  if(!a||!b)return null;
+  let w=tmin(b)-tmin(a);if(w<=0)w+=1440;
+  return w;
+}
+const workOf=r=>{let w=tmin(r.tout)-tmin(r.tin);if(w<=0)w+=1440;return w};
+function calc(){
+  const w=work(),c=$("calc");
+  if(w==null){c.textContent="Pon la hora de salida para calcular.";c.className="calc";return}
+  const ex=Math.max(0,w-daily*60);
+  c.textContent="Trabajado "+hm(w)+" h · Extra "+hm(ex)+" h";
+  c.className="calc"+(ex>0?" ok":"");
+}
+
+function chip(txt,pressed,fn){const b=el("button",txt,"chip");b.setAttribute("aria-pressed",pressed?"true":"false");b.onclick=fn;return b}
+function names(){const s=new Set(workers);recs.forEach(r=>s.add(r.w));return [...s]}
+function weekStart(dateStr){const d=parse(dateStr);return new Date(d.getFullYear(),d.getMonth(),d.getDate()-((d.getDay()+6)%7))}
+const wkLabel=dateStr=>{const s=weekStart(dateStr),e=new Date(s.getFullYear(),s.getMonth(),s.getDate()+6);return "Semana del "+fd(s)+" al "+fd(e)};
+
+function resetForm(){
+  editId=null;$("tin").value=DEF_IN;$("tout").value="";$("note").value="";render();
+}
+function startEdit(r){
+  editId=r.id;sel=r.w;$("date").value=r.date;
+  $("tin").value=r.tin||DEF_IN;
+  if(r.tout)$("tout").value=r.tout;
+  else{const t=(tmin(DEF_IN)+daily*60+r.min)%1440;$("tout").value=pad(Math.floor(t/60))+":"+pad(t%60)}
+  $("note").value=r.note||"";$("err").textContent="";
+  render();window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function render(){
+  document.body.classList.toggle("adm",adm);
+  $("admBtn").textContent=adm?"Salir de administrador":"Administrador";
+  const {s,e}=range(month);
+  $("mLabel").textContent=fd(s)+" – "+fd(e,true);
+  $("pSub").textContent="Periodo de pago (corte el día "+cut+")";
+  $("fTitle").textContent=editId?"Editar registro":"Anotar horas extras";
+  $("save").textContent=editId?"Guardar cambios":"Guardar";
+  $("cancel").hidden=!editId;
+
+  const wc=$("wChips");wc.replaceChildren();
+  (sel&&!workers.includes(sel)?[...workers,sel]:workers).forEach(w=>wc.append(chip(w,sel===w,()=>{sel=w;render()})));
+  calc();
+
+  const inP=recs.filter(r=>periodOf(r.date)===month);
+  const sum=$("sum");sum.replaceChildren();
+  let tot=0;
+  names().forEach(n=>{
+    const t=inP.filter(r=>r.w===n).reduce((a,r)=>a+r.min,0);tot+=t;
+    const d=el("div");d.append(el("b",hm(t)+" h"),el("span",n));sum.append(d);
+  });
+  const td=el("div",null,"tot");td.append(el("b",hm(tot)+" h"),el("span","Total de la sala"));sum.append(td);
+  $("xl").textContent="Descargar Excel ("+fd(s)+" – "+fd(e)+")";
+
+  const wk=$("weeks");wk.replaceChildren();
+  const groups={};
+  inP.forEach(r=>{const k=ymd(weekStart(r.date));(groups[k]=groups[k]||[]).push(r)});
+  const keys=Object.keys(groups).sort().reverse();
+  if(!keys.length)wk.append(el("div","Sin registros en este periodo.","empty"));
+  keys.forEach(k=>{
+    const g=groups[k],total=g.reduce((a,r)=>a+r.min,0);
+    const per=names().map(n=>{const t=g.filter(r=>r.w===n).reduce((a,r)=>a+r.min,0);return t?n+" "+hm(t)+" h":null}).filter(Boolean).join(" · ");
+    const box=el("div",null,"wk"),top=el("div",null,"top");
+    top.append(el("span",wkLabel(k)),el("b",hm(total)+" h"));
+    box.append(top,el("small",per));wk.append(box);
+  });
+
+  const fc=$("fChips");fc.replaceChildren();
+  fc.append(chip("Todos",filter==="all",()=>{filter="all";render()}));
+  names().forEach(n=>fc.append(chip(n,filter===n,()=>{filter=n;render()})));
+
+  const list=$("list");list.replaceChildren();
+  const rows=inP.filter(r=>filter==="all"||r.w===filter).sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
+  if(!rows.length)list.append(el("div","No hay horas extras anotadas en este periodo.","empty"));
+  rows.forEach(r=>{
+    const dt=parse(r.date),dd=dt.getDate();
+    const L=o=>dt.toLocaleDateString("es",o).replace(".","");
+    const row=el("div",null,"row");
+    const b=el("div",null,"badge"+(dt.getDay()%6===0?" we":""));
+    b.append(el("span",L({weekday:"short"})),el("b",String(dd)),el("span",L({month:"short"})));
+    const info=el("div",null,"info");
+    const horario=r.tin&&r.tout?" · "+r.tin+"–"+r.tout:"";
+    info.append(el("strong",r.w),el("small",cap(L({weekday:"long"}))+", "+dd+" de "+L({month:"long"})+horario+(r.note?" · "+r.note:"")));
+    const h=el("div",hm(r.min)+" h","hrs");
+    const acts=el("div",null,"acts");
+    const ed=el("button","Editar","ed");ed.setAttribute("aria-label","Editar registro de "+r.w);ed.onclick=()=>startEdit(r);
+    const x=el("button","Borrar","x");x.setAttribute("aria-label","Borrar registro de "+r.w);
+    x.onclick=async()=>{if(confirm("¿Borrar este registro?")){const {error}=await sb.from("records").delete().eq("id",r.id);if(error)return dbErr(error);if(editId===r.id)editId=null;load()}};
+    acts.append(ed,x);
+    row.append(b,info,h,acts);list.append(row);
+  });
+
+  const wl=$("wList");wl.replaceChildren();
+  workers.forEach(w=>{
+    const r=el("div",null,"row"),i=el("div",w,"info"),x=el("button","Quitar","x");
+    x.onclick=async()=>{if(confirm("¿Quitar a "+w+" de la lista? Sus registros se conservan.")){const {error}=await sb.from("workers").delete().eq("name",w);if(error)return dbErr(error);if(sel===w)sel=null;load()}};
+    r.append(i,x);wl.append(r);
+  });
+}
+
+$("save").onclick=async()=>{
+  if(!sb)return dbErr({message:"falta configurar Supabase"});
+  const date=$("date").value,w=work();
+  if(!sel){$("err").textContent="Elige un trabajador.";return}
+  if(!date){$("err").textContent="Elige la fecha.";return}
+  if(w==null){$("err").textContent="Pon la hora de salida.";return}
+  const ex=Math.max(0,w-daily*60);
+  if(ex<=0){$("err").textContent="Con esa salida no hay horas extra (jornada de "+daily+" h).";return}
+  const row={worker:sel,date,minutes:Math.round(ex),tin:$("tin").value,tout:$("tout").value,note:$("note").value.trim()};
+  const wasEdit=!!editId,who=sel;
+  $("save").disabled=true;
+  const {error}=wasEdit?await sb.from("records").update(row).eq("id",editId):await sb.from("records").insert(row);
+  $("save").disabled=false;
+  if(error){$("err").textContent="No se pudo guardar: "+error.message;return}
+  month=periodOf(date);editId=null;$("tin").value=DEF_IN;$("tout").value="";$("note").value="";
+  await load();
+  $("err").textContent=(wasEdit?"Cambios guardados: ":"Guardado: ")+who+", "+hm(ex)+" h.";
+};
+$("cancel").onclick=()=>{resetForm();$("err").textContent=""};
+$("wAdd").onclick=async()=>{
+  const n=$("wNew").value.trim();
+  if(!n||workers.includes(n))return;
+  const {error}=await sb.from("workers").insert({name:n});
+  if(error)return dbErr(error);
+  $("wNew").value="";load();
+};
+function move(d){const [y,m]=month.split("-").map(Number),x=new Date(y,m-1+d,1);month=x.getFullYear()+"-"+pad(x.getMonth()+1);render()}
+$("mPrev").onclick=()=>move(-1);$("mNext").onclick=()=>move(1);
+
+// ---------- Administrador (Supabase Auth) ----------
+function closePin(){$("pinBox").hidden=true;$("aPass").value="";$("pinErr").textContent=""}
+$("admBtn").onclick=async()=>{
+  if(!sb)return dbErr({message:"falta configurar Supabase"});
+  if(adm){await sb.auth.signOut();adm=false;closePin();resetForm();return}
+  $("pinBox").hidden=false;$("aPass").focus();window.scrollTo({top:0,behavior:"smooth"});
+};
+$("pinCancel").onclick=closePin;
+$("pinOk").onclick=async()=>{
+  const {error}=await sb.auth.signInWithPassword({email:ADMIN_EMAIL,password:$("aPass").value+PASS_EXTRA});
+  if(error){$("pinErr").textContent="Contraseña incorrecta.";return}
+  adm=true;closePin();render();
+};
+
+// ---------- Excel ----------
+const msg=t=>{$("err").textContent=t};
+async function exportXlsx(){
+  if(typeof ExcelJS==="undefined"){alert("No cargó la librería de Excel. Revisa la conexión e intenta de nuevo.");return}
+  const {s,e}=range(month);
+  const rows=recs.filter(r=>periodOf(r.date)===month).sort((a,b)=>a.date.localeCompare(b.date)||a.id-b.id);
+  if(!rows.length){alert("No hay registros en este periodo.");return}
+  const ws_names=names();
+  const wb=new ExcelJS.Workbook();wb.creator="Horas extras de la sala";
+  const NAVY="FF1B0838",SOFT="FFF8EAF2",GOLD="FFFFE9A8";
+  const thin={style:"thin",color:{argb:"FFCBB6C6"}},bd={top:thin,left:thin,bottom:thin,right:thin};
+  const fill=a=>({type:"pattern",pattern:"solid",fgColor:{argb:a}});
+  const head=row=>{row.eachCell(c=>{c.font={bold:true,color:{argb:"FFFFFFFF"}};c.fill=fill(NAVY);c.alignment={vertical:"middle",horizontal:"center",wrapText:true};c.border=bd});row.height=24};
+  const body=(row,i)=>row.eachCell(c=>{c.border=bd;if(i%2)c.fill=fill(SOFT)});
+  const totalRow=row=>row.eachCell(c=>{c.font={bold:true};c.fill=fill(GOLD);c.border=bd});
+  const col=n=>String.fromCharCode(65+n);
+  const label=fd(s,true)+" al "+fd(e,true);
+
+  const rs=wb.addWorksheet("Resumen",{views:[{showGridLines:false}]});
+  const dt=wb.addWorksheet("Detalle",{views:[{state:"frozen",ySplit:1}]});
+
+  // Detalle
+  dt.columns=[{header:"Trabajador",width:18},{header:"Fecha",width:13},{header:"Día",width:13},{header:"Entrada",width:10},{header:"Salida",width:10},{header:"Horas trabajadas",width:14},{header:"Horas extra",width:12},{header:"Semana",width:26},{header:"Nota",width:34}];
+  head(dt.getRow(1));
+  rows.forEach((r,i)=>{
+    const d=parse(r.date),tin=r.tin||DEF_IN;
+    const tout=r.tout||pad(Math.floor(((tmin(DEF_IN)+daily*60+r.min)%1440)/60))+":"+pad(((tmin(DEF_IN)+daily*60+r.min)%1440)%60);
+    const w=workOf({tin,tout});
+    const row=dt.addRow([r.w,new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())),cap(d.toLocaleDateString("es",{weekday:"long"})),tmin(tin)/1440,tmin(tout)/1440,w/1440,r.min/1440,wkLabel(r.date),r.note||""]);
+    row.getCell(2).numFmt="dd/mm/yyyy";row.getCell(4).numFmt="hh:mm";row.getCell(5).numFmt="hh:mm";row.getCell(6).numFmt="[h]:mm";row.getCell(7).numFmt="[h]:mm";
+    row.getCell(2).alignment=row.getCell(4).alignment=row.getCell(5).alignment=row.getCell(6).alignment=row.getCell(7).alignment={horizontal:"center"};
+    body(row,i%2);
+  });
+  const n=rows.length,sumMin=rows.reduce((a,r)=>a+r.min,0);
+  const tr=dt.addRow(["TOTAL","","","","","",{formula:"SUM(G2:G"+(n+1)+")",result:sumMin/1440}]);
+  tr.getCell(7).numFmt="[h]:mm";tr.getCell(7).alignment={horizontal:"center"};totalRow(tr);
+  dt.autoFilter="A1:I"+(n+1);
+
+  // Resumen
+  rs.columns=[{width:30},...ws_names.map(()=>({width:16})),{width:16}];
+  if(rs.columns.length<4)rs.getColumn(4).width=18;
+  rs.mergeCells("A1:D1");rs.getCell("A1").value="Control de horas extras · Sala";
+  rs.getCell("A1").font={bold:true,size:18,color:{argb:"FFFFFFFF"}};rs.getCell("A1").fill=fill(NAVY);rs.getCell("A1").alignment={vertical:"middle",horizontal:"left",indent:1};rs.getRow(1).height=34;
+  ["B1","C1","D1"].forEach(c=>rs.getCell(c).fill=fill(NAVY));
+  rs.getCell("A2").value="Periodo: "+label;rs.getCell("A2").font={bold:true,size:12};
+  rs.getCell("A3").value="Generado: "+new Date().toLocaleDateString("es",{day:"numeric",month:"long",year:"numeric"})+" · Jornada normal: "+daily+" h";rs.getCell("A3").font={italic:true,color:{argb:"FF6B5B73"}};
+  const hr=rs.getRow(5);hr.values=["Trabajador","Registros","Horas extra (h:mm)","Horas (decimal)"];head(hr);
+  ws_names.forEach((nm,i)=>{
+    const r=6+i,mine=rows.filter(q=>q.w===nm),m=mine.reduce((a,q)=>a+q.min,0);
+    const row=rs.getRow(r);
+    row.values=[nm,{formula:"COUNTIF(Detalle!$A:$A,A"+r+")",result:mine.length},{formula:"SUMIF(Detalle!$A:$A,A"+r+",Detalle!$G:$G)",result:m/1440},{formula:"C"+r+"*24",result:m/60}];
+    row.getCell(3).numFmt="[h]:mm";row.getCell(4).numFmt="0.00";
+    row.eachCell(c=>{if(c.col>1)c.alignment={horizontal:"center"}});body(row,i%2);
+  });
+  const last=5+ws_names.length,tot=last+1;
+  const trow=rs.getRow(tot);
+  trow.values=["TOTAL SALA",{formula:"SUM(B6:B"+last+")",result:n},{formula:"SUM(C6:C"+last+")",result:sumMin/1440},{formula:"SUM(D6:D"+last+")",result:sumMin/60}];
+  trow.getCell(3).numFmt="[h]:mm";trow.getCell(4).numFmt="0.00";
+  trow.eachCell(c=>{if(c.col>1)c.alignment={horizontal:"center"}});totalRow(trow);
+
+  // Por semana
+  const t0=tot+3;
+  rs.getCell("A"+(t0-1)).value="Resumen por semana";rs.getCell("A"+(t0-1)).font={bold:true,size:14};
+  const wh=rs.getRow(t0);wh.values=["Semana",...ws_names,"Total"];head(wh);
+  const wkKeys=[...new Set(rows.map(r=>ymd(weekStart(r.date))))].sort();
+  wkKeys.forEach((k,i)=>{
+    const r=t0+1+i,lbl=wkLabel(k),g=rows.filter(q=>ymd(weekStart(q.date))===k);
+    const vals=[lbl];
+    ws_names.forEach((nm,j)=>{const m=g.filter(q=>q.w===nm).reduce((a,q)=>a+q.min,0);vals.push({formula:"SUMIFS(Detalle!$G:$G,Detalle!$H:$H,$A"+r+",Detalle!$A:$A,"+col(j+1)+"$"+t0+")",result:m/1440})});
+    vals.push({formula:"SUM(B"+r+":"+col(ws_names.length)+r+")",result:g.reduce((a,q)=>a+q.min,0)/1440});
+    const row=rs.getRow(r);row.values=vals;
+    row.eachCell(c=>{if(c.col>1){c.numFmt="[h]:mm";c.alignment={horizontal:"center"}}});body(row,i%2);
+  });
+
+  try{
+    const buf=await wb.xlsx.writeBuffer();
+    const fn="Horas-extras_"+fd(s).replace(" ","")+"-"+fd(e).replace(" ","")+"-"+e.getFullYear()+".xlsx";
+    const url=URL.createObjectURL(new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}));
+    const a=document.createElement("a");a.href=url;a.download=fn;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);
+    msg("Excel listo: "+label+".");
+  }catch(err){
+    if(err&&err.code==="declined")return;
+    msg("No se pudo guardar el Excel. Intenta de nuevo.");
+  }
+}
+$("xl").onclick=exportXlsx;
+$("xl").hidden=false;
+
+render();
+if(sb){
+  load();
+  sb.auth.getSession().then(({data})=>{adm=!!(data&&data.session);render()});
+  sb.channel("horas").on("postgres_changes",{event:"*",schema:"public"},()=>load()).subscribe();
+}else{
+  $("err").textContent="Falta pegar la URL y la anon key de Supabase al inicio del código (busca CONFIGURACIÓN).";
+}
+</script>
+</body>
+</html>
